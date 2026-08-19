@@ -152,5 +152,37 @@
     o(); window.addEventListener('scroll', o, {passive:true});
   })();
 </script>
+<style>
+  .cookie-bar{position:fixed;left:0;right:0;bottom:0;z-index:1000;background:#0f1417;border-top:1px solid #24292e;transform:translateY(100%);transition:transform .3s ease;}
+  .cookie-bar.show{transform:translateY(0);}
+  .cookie-inner{max-width:1180px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;}
+  .cookie-bar p{margin:0;font-size:.86rem;color:#cfd6da;line-height:1.5;}
+  .cookie-bar a{color:#00a9ce;text-decoration:underline;}
+  .cookie-actions{display:flex;gap:10px;}
+  .cookie-btn{flex:0 0 auto;padding:.6rem 1.3rem;border-radius:999px;font-weight:700;font-size:.85rem;cursor:pointer;border:1px solid transparent;font-family:inherit;}
+  .cookie-accept{background:#00a9ce;color:#04222b;border-color:#00a9ce;}
+  .cookie-decline{background:transparent;color:#cfd6da;border-color:#39424a;}
+  @media(min-width:768px){.cookie-inner{flex-direction:row;justify-content:space-between;text-align:left;}}
+</style>
+<div class="cookie-bar" id="cookieBar" role="dialog" aria-label="Cookie notice">
+  <div class="cookie-inner">
+    <p>We use cookies to make this site work and to understand how it is used. See our <a href="/cookies/">Cookie Policy</a>.</p>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-decline" id="cookieDecline" type="button">Decline</button>
+      <button class="cookie-btn cookie-accept" id="cookieAccept" type="button">Accept</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var bar=document.getElementById('cookieBar'); if(!bar) return;
+  var KEY='rp_cookie_consent';
+  function get(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
+  function set(v){try{localStorage.setItem(KEY,v);}catch(e){}}
+  if(!get()){setTimeout(function(){bar.classList.add('show');},400);}
+  document.getElementById('cookieAccept').addEventListener('click',function(){set('accepted');bar.classList.remove('show');});
+  document.getElementById('cookieDecline').addEventListener('click',function(){set('declined');bar.classList.remove('show');});
+})();
+</script>
 </body>
 </html>
